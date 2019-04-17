@@ -1,2 +1,4 @@
-<app-users [users]="users$ | async"
+<app-users 
+[usersLoading]="usersLoading$| async"
+(onLoad)="onLoad($event)"
   (userSelected)="navigateToUser($event)"></app-users>

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Effect, ofType, Actions } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { of } from 'rxjs';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
+import { switchMap, map, withLatestFrom, debounceTime } from 'rxjs/operators';
 
 import { IAppState } from '../state/app.state';
 import {
@@ -30,10 +30,13 @@ export class UserEffects {
   );
 
   @Effect()
-  getUsers$ = this._actions$.pipe(
+  getUsers = this._actions$.pipe(
     ofType<GetUsers>(EUserActions.GetUsers),
-    switchMap(() => this._userService.getUsers()),
-    switchMap((userHttp: IUserHttp) => of(new GetUsersSuccess(userHttp.users)))
+    //UNCOMMENT TO GET CHANGE DETECTION
+    //debounceTime(1),
+    map((token) => {
+      return new GetUsersSuccess([]);
+    })
   );
 
   constructor(

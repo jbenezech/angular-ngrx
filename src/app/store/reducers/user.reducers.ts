@@ -6,12 +6,13 @@ export const userReducers = (
   state = initialUserState,
   action: UserActions
 ): IUserState => {
+  console.log(action.type);
   switch (action.type) {
+    case EUserActions.GetUsers: {
+      return (Object.assign({}, state, {usersLoading: true}));
+    }
     case EUserActions.GetUsersSuccess: {
-      return {
-        ...state,
-        users: action.payload
-      };
+      return (Object.assign({}, state, {usersLoading: false}));
     }
     case EUserActions.GetUserSuccess: {
       return {
